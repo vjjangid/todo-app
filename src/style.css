@@ -1,0 +1,92 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+:root {
+    --bright-blue: hsl(220, 98%, 61%);
+    --check-background: linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%);
+    --very-light-gray: hsl(0, 0%, 98%);
+    --very-light-grayish-blue: hsl(236, 33%, 92%);
+    --very-light-grayish-blue: hsl(233, 11%, 84%);
+    --very-dark-grayish-blue: hsl(236, 9%, 61%);
+    --dark-grayish-blue: hsl(235, 19%, 35%);
+    --very-dark-blue: hsl(235, 21%, 11%);
+    --very-dark-desaturated-blue: hsl(235, 24%, 19%);
+    --light-grayish-blue: hsl(234, 39%, 85%);
+    --dark-grayish-blue: hsl(234, 11%, 52%);
+    --very-dark-grayish-blue: hsl(233, 14%, 35%);
+    --very-dark-grayish-blue: hsl(237, 14%, 26%);
+    --fs: 18px;
+    --fw-bold: 400;
+    --fw-extra-bold: 700;
+
+}
+
+body{
+    background-image: url(../images/bg-desktop-dark.jpg);
+    background-color: var(--very-dark-blue);
+    background-repeat: no-repeat;
+    background-size: 100vw 34vh;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    min-width: 30%;
+    min-height: 50%;
+    padding-top: 6rem;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 0rem 1rem 0rem;
+    font-size: var(--fs);
+    font-weight: var(--fw-extra-bold);
+    letter-spacing: 0.7rem;
+    color: var(--very-light-gray);
+}
+
+.current{
+    margin: 1rem 0rem 2rem 0rem;
+    border-radius: 5px;
+    display: flex;
+}
+
+.bg-color{
+    padding: 1rem;
+    background-color: var(--very-dark-desaturated-blue);
+    color: var(--very-light-grayish-blue);
+    font-size: var(--fs);
+}
+
+hr{
+    border: 1px solid var(--very-dark-grayish-blue);
+}
+
+.todo-actions{
+    display: flex;
+    justify-content: space-around;
+}
+
+.todo-item{
+    display: flex;
+    justify-content: space-between;
+}
+
+.enter {
+    background-color: var(--very-dark-desaturated-blue);
+    width: 100%;
+    border: 0px;
+}
