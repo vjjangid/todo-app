@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,54 +11,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="main">
 
-    <div class="wrapper">
-        <div class="header">
-            <h1>TODO</h1>
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"><path fill="#FFF" fill-rule="evenodd" d="M13 21a1 1 0 011 1v3a1 1 0 11-2 0v-3a1 1 0 011-1zm-5.657-2.343a1 1 0 010 1.414l-2.121 2.121a1 1 0 01-1.414-1.414l2.12-2.121a1 1 0 011.415 0zm12.728 0l2.121 2.121a1 1 0 01-1.414 1.414l-2.121-2.12a1 1 0 011.414-1.415zM13 8a5 5 0 110 10 5 5 0 010-10zm12 4a1 1 0 110 2h-3a1 1 0 110-2h3zM4 12a1 1 0 110 2H1a1 1 0 110-2h3zm18.192-8.192a1 1 0 010 1.414l-2.12 2.121a1 1 0 01-1.415-1.414l2.121-2.121a1 1 0 011.414 0zm-16.97 0l2.121 2.12A1 1 0 015.93 7.344L3.808 5.222a1 1 0 011.414-1.414zM13 0a1 1 0 011 1v3a1 1 0 11-2 0V1a1 1 0 011-1z"/></svg>
-        </div>
-        
-        <div class="current bg-color">
-            <input type="checkbox"/>
-            <input class="enter" type="text" id="typing" placeholder=" Currently typing"/>
-            <!-- <label for="typing">Currently typing</label> -->
-        </div>
+        <div class="wrapper">
+            <!-- Header part-->
+            <div class="header">
+                <h1>TODO</h1>
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26">
+                    <path fill="#FFF" fill-rule="evenodd"
+                        d="M13 21a1 1 0 011 1v3a1 1 0 11-2 0v-3a1 1 0 011-1zm-5.657-2.343a1 1 0 010 1.414l-2.121 2.121a1 1 0 01-1.414-1.414l2.12-2.121a1 1 0 011.415 0zm12.728 0l2.121 2.121a1 1 0 01-1.414 1.414l-2.121-2.12a1 1 0 011.414-1.415zM13 8a5 5 0 110 10 5 5 0 010-10zm12 4a1 1 0 110 2h-3a1 1 0 110-2h3zM4 12a1 1 0 110 2H1a1 1 0 110-2h3zm18.192-8.192a1 1 0 010 1.414l-2.12 2.121a1 1 0 01-1.415-1.414l2.121-2.121a1 1 0 011.414 0zm-16.97 0l2.121 2.12A1 1 0 015.93 7.344L3.808 5.222a1 1 0 011.414-1.414zM13 0a1 1 0 011 1v3a1 1 0 11-2 0V1a1 1 0 011-1z" />
+                </svg>
+            </div>
 
-        <div class="todo-list">
-            <div class="bg-color todo-item">
-                <div>
-                    <input type="checkbox" id="typing" value="typing"/>
-                    <label for="typing">Jog around the park</label>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"><path fill="#494C6B" fill-rule="evenodd" d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"/></svg>
+            <!-- Enter new task-->
+            <div class="new bg-color">
+                <input class="new-task" type="text" id="new-task" placeholder=" Currently typing" />
             </div>
-            <hr>
-            <div class="bg-color todo-item">
-                <div>
-                    <input type="checkbox" id="typing" value="typing"/>
-                    <label for="typing">Jog around the park</label>
+
+            <!-- Todo List-->
+            <div class="todo-list" id="todo-list">
+                <div class="bg-color todo-item">
+                    <div class="task">
+                        <input type="checkbox" id="typing" value="typing" />
+                        <label for="typing">
+                            <span class="custom-checkbox"></span>
+                            Jog around the park
+                        </label>
+                    </div>
+                    <a>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+                            <path fill="#494C6B" fill-rule="evenodd"
+                                d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z" />
+                        </svg>
+                    </a>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"><path fill="#494C6B" fill-rule="evenodd" d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"/></svg>
+                <hr>
+
             </div>
-            <hr>
-            <div class="bg-color todo-item">
-                <div>
-                    <input type="checkbox" id="typing" value="typing"/>
-                    <label for="typing">Jog around the park</label>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"><path fill="#494C6B" fill-rule="evenodd" d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"/></svg>
-            </div>
-            <hr>
-            <div class="bg-color todo-item">
-                <div>
-                    <input type="checkbox" id="typing" value="typing"/>
-                    <label for="typing">Jog around the park</label>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"><path fill="#494C6B" fill-rule="evenodd" d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"/></svg>
-            </div>
-            <hr>
+
+            <!-- Actions on todo List-->
             <div class="todo-actions bg-color">
                 <a>5 items left</a>
                 <div>
@@ -68,53 +62,9 @@
                 <a>Clear Completed</a>
             </div>
         </div>
-
-        
-
-        <!-- <div class="todo-list">
-            <ul>
-                <li class="bg-color">
-                    <input type="checkbox" id="typing" value="typing"/>
-                    <label for="typing">Jog around the park</label>
-                </li>
-                <hr>
-                <li class="bg-color">
-                    <input type="checkbox" id="typing" value="typing"/>
-                    <label for="typing">Jog around the park</label>
-                </li>
-                <hr>
-                <li class="bg-color">
-                    <input type="checkbox" id="typing" value="typing"/>
-                    <label for="typing">Jog around the park</label>
-                </li>
-                <hr>
-                <li class="bg-color">
-                    <input type="checkbox" id="typing" value="typing"/>
-                    <label for="typing">Jog around the park</label>
-                </li>
-                <hr>
-                <li class="bg-color">
-                    <input type="checkbox" id="typing" value="typing"/>
-                    <label for="typing">Jog around the park</label>
-                </li>
-                <hr>
-                <li class="bg-color">
-                    <input type="checkbox" id="typing" value="typing"/>
-                    <label for="typing">Jog around the park</label>
-                </li>
-                <hr>
-            </ul>
-            <div class="todo-actions bg-color">
-                <a>5 items left</a>
-                <div>
-                    <a>All</a>
-                    <a>Active</a>
-                    <a>Completed</a>
-                </div>
-                <a>Clear Completed</a>
-            </div>
-        </div> -->
     </div>
-    </div>
+
+    <script src="../src/main.js"></script>
 </body>
+
 </html>
