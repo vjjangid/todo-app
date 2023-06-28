@@ -1,0 +1,13 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "This is a todo application written in vanilla html, css and js ![image](https://github.com/vjjangid/todo-app/assets/23000630/f973cc59-1d7a-4d6e-989b-5e08282756a3)",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && npx serve -s build",
+    "build": "mkdir -p build && cp -R src/* build/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "vjjangid",
+  "license": "ISC"
+}
