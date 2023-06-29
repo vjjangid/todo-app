@@ -9,40 +9,15 @@ newTask.addEventListener("keypress", function(event){
             alert("Please enter the task name");
             return;
         }
-        let newNode = createNewTask(newTask.value);
+
         let todoListNode = document.getElementById("todo-list");
+        let newNode = createNewTask(newTask.value);
         todoListNode.append(newNode);
         newTask.value = "";
     }
 });
 
 function createNewTask(newTask)
-{
-    let div = document.createElement("div");
-    div.innerHTML = getNewTaskHtml(newTask);
-    return div;
-}
-
-function getNewTaskHtml(newTask)
-{
-    return `
-    <div class="bg-color todo-item">
-    <div class="task">
-        <input type="checkbox" id="typing" value="typing" />
-        <label for="typing">
-            <span class="custom-checkbox"></span>
-            ${newTask}
-        </label>
-    </div>
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18">
-        <path fill="#494C6B" fill-rule="evenodd"
-            d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z" />
-    </svg>
-    </div>
-    <hr>`;
-}
-
-function getNewTaskHtmlByDOM(newTask)
 {
     let parentElement = document.createElement("div");
     parentElement.setAttribute("class", "bg-color todo-item");
@@ -57,24 +32,45 @@ function getNewTaskHtmlByDOM(newTask)
 
     let labelElement = document.createElement("label");
     labelElement.setAttribute("for", "typing");
-    labelElement.value = newTask;
-    labelElement.appendChild(spanElement);
 
     let spanElement = document.createElement("span");
     spanElement.setAttribute("class", "custom-checkbox");
-
+    labelElement.appendChild(spanElement);
+    let spanNameElement = document.createElement("span");
+    spanNameElement.innerText = newTask;
+    labelElement.appendChild(spanNameElement);
+    
     taskElement.appendChild(inputElement);
     taskElement.appendChild(labelElement);
 
-    let svgElement = document.createElement()
-    
+    const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    svgElement.setAttribute("width", "18");
+    svgElement.setAttribute("height", "18");
+
+    // Create the path element
+    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    pathElement.setAttribute("fill", "#494C6B");
+    pathElement.setAttribute("fill-rule", "evenodd");
+    pathElement.setAttribute("d", "M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z");
+
+    // Append the path element to the SVG element
+    svgElement.appendChild(pathElement);
+
+    parentElement.appendChild(taskElement);
+    parentElement.appendChild(svgElement);
+
+    let hrElement = document.createElement("hr");
+    parentElement.after(hrElement);
+
+    return parentElement;
 }
 /*
     Action item bar functionality
 */
 
 let actionRow = document.getElementsByClassName("todo-actions");
-let pendingTaskEle = actionRow.getElementById("pending-task");
+let pendingTaskEle = document.getElementById("pending-task");
 
 pendingTaskEle.addEventListener(onclick, ()=>{
     let todoListNode = document.getElementById("todo-list");
