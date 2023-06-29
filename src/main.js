@@ -1,6 +1,7 @@
 "use strict";
 
 let ids = new Array();
+let allToDos = new Array();
 
 let newTask = document.getElementById("new-task");
 newTask.addEventListener("keypress", function(event){
@@ -13,10 +14,12 @@ newTask.addEventListener("keypress", function(event){
         }
 
         let todoListNode = document.getElementById("todo-list");
-        let newNode = createNewTask(newTask.value);
-        todoListNode.append(newNode);
+        let newTodoNode = createNewTask(newTask.value);
+        todoListNode.append(newTodoNode);
         let hrElement = document.createElement("hr");
         todoListNode.append(hrElement);
+        addTodosToList(newTodoNode, newTask.value);
+        console.log(allToDos);
         newTask.value = "";
     }
 });
@@ -26,6 +29,8 @@ function removeTask(id){
     let hrElement = taskElement.nextElementSibling;
     taskElement.remove();
     hrElement.remove();
+    removeTodoFromList(id);
+    console.log(allToDos);
 }
 
 function getUniqueId(){
@@ -41,6 +46,27 @@ function getUniqueId(){
 
 function getRandomNumber(){
     return Math.ceil(Math.random() * 100);
+}
+
+function addTodosToList(newTodoNode, todoName)
+{
+    let todo = {
+        id: parseInt(newTodoNode.getAttribute("id")),
+        name: todoName
+    };
+    allToDos.push(todo);
+}
+
+function removeTodoFromList(id)
+{
+    for(let i = 0; i<allToDos.length; i++)
+    {
+        if(allToDos[i].id === parseInt(id))
+        {
+            allToDos.splice(i, 1);
+            return;
+        }
+    }
 }
 
 let actionRow = document.getElementsByClassName("todo-actions");
@@ -82,7 +108,7 @@ function createNewTask(newTask){
     svgElement.setAttribute("width", "18");
     svgElement.setAttribute("height", "18");
 
-    // Create the path element
+
     const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
     pathElement.setAttribute("fill", "#494C6B");
     pathElement.setAttribute("fill-rule", "evenodd");
@@ -93,7 +119,6 @@ function createNewTask(newTask){
         removeTask(uniqueId);
     });
 
-    // Append the path element to the SVG element
     svgElement.appendChild(pathElement);
 
     parentElement.appendChild(taskElement);
