@@ -1,5 +1,7 @@
 "use strict";
 
+let ids = new Array();
+
 let newTask = document.getElementById("new-task");
 newTask.addEventListener("keypress", function(event){
     if(event.key === "Enter")
@@ -17,11 +19,39 @@ newTask.addEventListener("keypress", function(event){
     }
 });
 
-function createNewTask(newTask)
-{
+function removeTask(id){
+    let taskElement = document.getElementById(id);
+    taskElement.remove();
+}
+
+function getUniqueId(){
+    let id = getRandomNumber();
+    
+    while(ids.includes(id)){
+        id = getRandomNumber();
+    }
+
+    ids.push(id);
+    return id;
+}
+
+function getRandomNumber(){
+    return Math.ceil(Math.random() * 100);
+}
+
+let actionRow = document.getElementsByClassName("todo-actions");
+let pendingTaskEle = document.getElementById("pending-task");
+
+pendingTaskEle.addEventListener(onclick, ()=>{
+    let todoListNode = document.getElementById("todo-list");
+
+});
+
+function createNewTask(newTask){
     let parentElement = document.createElement("div");
     parentElement.setAttribute("class", "bg-color todo-item");
-
+    const uniqueId = getUniqueId();
+    parentElement.setAttribute("id", uniqueId);
     let taskElement = document.createElement("div");
     taskElement.setAttribute("class", "task");
 
@@ -54,6 +84,11 @@ function createNewTask(newTask)
     pathElement.setAttribute("fill-rule", "evenodd");
     pathElement.setAttribute("d", "M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z");
 
+    svgElement.addEventListener("click", ()=>
+    {
+        removeTask(uniqueId);
+    });
+
     // Append the path element to the SVG element
     svgElement.appendChild(pathElement);
 
@@ -65,15 +100,4 @@ function createNewTask(newTask)
 
     return parentElement;
 }
-/*
-    Action item bar functionality
-*/
-
-let actionRow = document.getElementsByClassName("todo-actions");
-let pendingTaskEle = document.getElementById("pending-task");
-
-pendingTaskEle.addEventListener(onclick, ()=>{
-    let todoListNode = document.getElementById("todo-list");
-
-});
 
