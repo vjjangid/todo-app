@@ -15,13 +15,17 @@ newTask.addEventListener("keypress", function(event){
         let todoListNode = document.getElementById("todo-list");
         let newNode = createNewTask(newTask.value);
         todoListNode.append(newNode);
+        let hrElement = document.createElement("hr");
+        todoListNode.append(hrElement);
         newTask.value = "";
     }
 });
 
 function removeTask(id){
     let taskElement = document.getElementById(id);
+    let hrElement = taskElement.nextElementSibling;
     taskElement.remove();
+    hrElement.remove();
 }
 
 function getUniqueId(){
@@ -94,9 +98,6 @@ function createNewTask(newTask){
 
     parentElement.appendChild(taskElement);
     parentElement.appendChild(svgElement);
-
-    let hrElement = document.createElement("hr");
-    parentElement.after(hrElement);
 
     return parentElement;
 }
