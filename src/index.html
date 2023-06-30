@@ -36,13 +36,12 @@
 
             <!-- Actions on todo List-->
             <div class="todo-actions bg-color">
-                <p id="pending-task">0 items left</p>
                 <div>
-                    <a>All</a>
-                    <a>Active</a>
-                    <a>Completed</a>
+                    <button onclick="showAllTask()">All</button>
+                    <button onclick="showActiveTask()">Active</button>
+                    <button onclick="showCompletedTask()">Completed</button>
                 </div>
-                <a>Clear Completed</a>
+                <button onclick="clearCompletedTasks()">Clear Completed</button>
             </div>
         </div>
     </div>

@@ -128,3 +128,14 @@ hr{
 .task input[type="checkbox"]:checked + label::before{
     background: var(--check-background);
 }
+
+.todo-actions button{
+    background: none;
+	color: currentColor;
+	border: none;
+	padding: 0;
+    margin-right: .5rem;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
