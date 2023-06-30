@@ -7,7 +7,7 @@
 
 :root {
     --bright-blue: hsl(220, 98%, 61%);
-    --check-background: linear-gradient hsl(192, 100%, 67%) to hsl(280, 87%, 65%);
+    --check-background: linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
     --very-light-gray: hsl(0, 0%, 98%);
     --very-light-grayish-blue: hsl(236, 33%, 92%);
     --very-light-grayish-blue: hsl(233, 11%, 84%);
@@ -99,21 +99,25 @@ hr{
     color: var(--very-light-grayish-blue);
 }
 
-[type="checkbox"] {
-    opacity: 0;
-    position: absolute;
+.task{
+    display: flex;
+    align-items: center;
 }
 
-.custom-checkbox {
-    display: inline-block;
+.task input[type="checkbox"]{
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    margin-left: .5em;
+}
+
+.task label::before{
+    content: '';
     width: 1.5rem;
     height: 1.5rem;
-    cursor: pointer;
-    border: 2px solid currentColor;
     border-radius: 50%;
+    border: 0.13rem solid currentColor;
     margin-right: 0.6rem;
-    transform: scale(0.8);
-    transition: transform 300ms ease-in-out;
 }
 
 .task label{
@@ -121,10 +125,6 @@ hr{
     align-items: center;
 }
 
-.task:hover .custom-checkbox{
-    transform: scale(1);
-}
-
-[type="checkbox"]:checked + label .custom-checkbox{
-    background-color:hsl(138, 98%, 61%);
+.task input[type="checkbox"]:checked + label::before{
+    background: var(--check-background);
 }

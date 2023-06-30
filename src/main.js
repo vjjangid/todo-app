@@ -34,7 +34,7 @@ function removeTask(id){
 }
 
 function getUniqueId(){
-    let id = getRandomNumber();
+    let id = getRandomNumber(100);
     
     while(ids.includes(id)){
         id = getRandomNumber();
@@ -44,8 +44,8 @@ function getUniqueId(){
     return id;
 }
 
-function getRandomNumber(){
-    return Math.ceil(Math.random() * 100);
+function getRandomNumber(range){
+    return Math.ceil(Math.random() * range);
 }
 
 function addTodosToList(newTodoNode, todoName)
@@ -85,23 +85,24 @@ function createNewTask(newTask){
     let taskElement = document.createElement("div");
     taskElement.setAttribute("class", "task");
 
-    let inputElement = document.createElement("input");
-    inputElement.setAttribute("id", "typing");
-    inputElement.setAttribute("value", "typing");
-    inputElement.setAttribute("type", "checkbox");
+    let checkboxElement = document.createElement("input");
+    let uniqueCheckBoxId = getRandomNumber(200) + 100;
+    checkboxElement.setAttribute("id", uniqueCheckBoxId);
+    checkboxElement.setAttribute("value", "typing");
+    checkboxElement.setAttribute("type", "checkbox");
 
-    let labelElement = document.createElement("label");
-    labelElement.setAttribute("for", "typing");
+    let checkboxLabelElement = document.createElement("label");
+    checkboxLabelElement.setAttribute("for", "typing");
 
     let spanElement = document.createElement("span");
     spanElement.setAttribute("class", "custom-checkbox");
-    labelElement.appendChild(spanElement);
+    checkboxLabelElement.appendChild(spanElement);
     let spanNameElement = document.createElement("span");
     spanNameElement.innerText = newTask;
-    labelElement.appendChild(spanNameElement);
+    checkboxLabelElement.appendChild(spanNameElement);
     
-    taskElement.appendChild(inputElement);
-    taskElement.appendChild(labelElement);
+    taskElement.appendChild(checkboxElement);
+    taskElement.appendChild(checkboxLabelElement);
 
     const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
