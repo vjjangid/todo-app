@@ -3,25 +3,64 @@
 let ids = new Array();
 let allToDos = new Array();
 
-let newTask = document.getElementById("new-task");
-newTask.addEventListener("keypress", function(event){
+function fetchTodos()
+{
+    fetch("http://localhost:3000/todos")
+    .then( (response) => {
+        return response.json();
+    })
+    .then((data)=>{
+        loadAllTodos(data);
+    })
+    .catch(error => {
+        console.log(error);
+    })
+}
+
+fetchTodos();
+
+function loadAllTodos(todos)
+{
+    todos.forEach(todo => {
+        allToDos.push(todo);
+        addTodoItem(todo.name, todo.id);
+    })
+}
+
+function onEnterTask(event)
+{
+    let newTask = document.getElementById("new-task");
     if(event.key === "Enter")
     {
+        
         if(newTask.value === "")
         {
             alert("Please enter the task name");
             return;
         }
 
-        let todoListNode = document.getElementById("todo-list");
-        let newTodoNode = createNewTaskWithDefaultUid(newTask.value);
-        todoListNode.append(newTodoNode);
-        let hrElement = document.createElement("hr");
-        todoListNode.append(hrElement);
+        let newTodoNode = addTodoItem(newTask.value);
         addTodosToList(newTodoNode, newTask.value);
         newTask.value = "";
     }
-});
+}
+
+function addTodoItem(newTask, uniqueId) {
+    let todoListNode = document.getElementById("todo-list");
+    let newTodoNode;
+    if(uniqueId === -1)
+    {
+        newTodoNode = createNewTaskWithDefaultUid(newTask);
+    }
+    else
+    {
+        newTodoNode = createNewTaskWithUid(newTask, uniqueId);
+    }
+    todoListNode.append(newTodoNode);
+    let hrElement = document.createElement("hr");
+    todoListNode.append(hrElement);
+    return newTodoNode;
+}
 
 function removeTask(id){
     let taskElement = document.getElementById(id);
