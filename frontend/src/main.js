@@ -39,7 +39,7 @@ function onEnterTask(event)
             return;
         }
 
-        let newTodoNode = addTodoItem(newTask.value);
+        let newTodoNode = addTodoItem(newTask.value, -1);
         addTodosToList(newTodoNode, newTask.value);
         newTask.value = "";
     }
