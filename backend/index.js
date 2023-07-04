@@ -2,12 +2,10 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const app = express();
-const port = 3000;
+const port = process.env.port || 90001;
 
+app.use(cors());
 app.use(bodyParser.json());
-app.use(cors({
-    origin: 'http://127.0.0.1:5500',
-}));
 
 let todos = new Array();
 todos.push({
