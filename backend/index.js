@@ -21,7 +21,7 @@ app.get('/todos', (req, res)=>{
 app.post('/todos', (req, res) => {
     const newTodo = {
       id: req.body.id, // unique random id
-      name: req.body.title,
+      name: req.body.name,
       completed: req.body.completed
     };
     todos.push(newTodo);
