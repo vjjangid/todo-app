@@ -314,3 +314,29 @@ function modalExit(event) {
 function stopPropagation(event) {
     event.stopPropagation();
 }
+
+function getRelativeForm()
+{
+    let modalHeaderElement = document.getElementById("modal-header");
+    if(modalHeaderElement.innerHTML === "Login")
+    {
+        modalHeaderElement.innerHTML = "Signup";
+        let modalFooterElement = document.getElementById("modal-footer");
+        modalFooterElement.innerHTML = `<p id="modal-footer">Already a member? <a class="form-action" id="form-action" onclick="getRelativeForm()">Login</a></p>`;
+        
+    }
+    else
+    {
+        modalHeaderElement.innerHTML = "Login";
+        let modalFooterElement = document.getElementById("modal-footer");
+        modalFooterElement.innerHTML = `<p id="modal-footer">Not a member? <a class="form-action" id="form-action" onclick="getRelativeForm()">Sigin</a></p>`;
+    }
+}
+
+function onSubmit(){
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    emailInput.value = '';
+    passwordInput.value = '';
+  }

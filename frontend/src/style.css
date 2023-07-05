@@ -178,6 +178,11 @@ form > input{
     border-radius: 5px;
 }
 
+.form-action:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 form > input:focus
 {
     outline: none;

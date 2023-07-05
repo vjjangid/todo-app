@@ -43,14 +43,14 @@
         </div>
 
         <div class="modal-container" id="modal-container" onclick="modalExit(event)">
-            <div class="modal-content" id="modal-content"onclick="stopPropagation(event">
-                <h2>Login</h2>
+            <div class="modal-content" id="modal-content"onclick="stopPropagation(event)">
+                <h2 id="modal-header">Login</h2>
                 <form class="logn-form">
-                    <input type="email" placeholder="email id">
-                    <input type="password" placeholder="password">
-                    <input type="submit">
+                    <input id="email" type="email" placeholder="email id">
+                    <input id="password" type="password" placeholder="password">
+                    <input type="button" value="Submit" onclick="onSubmit()">
                 </form>
-                
+                <p id="modal-footer">Not a member? <a class="form-action" onclick="getRelativeForm()">Signup</a></p>
             </div>
         </div>
     </div>
