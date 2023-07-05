@@ -297,3 +297,20 @@ function getUniqueId(){
 function getRandomNumber(range){
     return Math.ceil(Math.random() * range);
 }
+
+function showLoginDailog(){
+    let popUpmodel = document.getElementById("modal-container");
+    popUpmodel.style.display = "block";
+}
+
+function modalExit(event) {
+    const modalContainer = document.getElementById("modal-container");
+  
+    if (event.target === modalContainer) {
+      modalContainer.style.display = "none";
+    }
+}
+  
+function stopPropagation(event) {
+    event.stopPropagation();
+}
