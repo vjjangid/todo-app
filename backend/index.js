@@ -1,7 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const mongoose = require("mongoose");
+
 
 const app = express();
 const port = process.env.port || 3000   ;
@@ -19,7 +21,7 @@ const todoSchema = mongoose.Schema({
 
 const TODOS = mongoose.model("Todos", todoSchema);
 
-mongoose.connect("mongodb+srv://vjjangid:rwxzX3PQlTu1mg71@cluster0.iqqseyl.mongodb.net/todos", { 
+mongoose.connect(process.env.DATABASE_URL, { 
     useNewUrlParser: true,
     useUnifiedTopology: true,
     dbName: "todos" 
