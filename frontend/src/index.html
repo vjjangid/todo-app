@@ -19,7 +19,7 @@
             <!-- Header part-->
             <div class="header">
                 <h1>TODO</h1>
-                <button id="login-button" onclick="showLoginDailog()">Login</button>
+                <button id="login-button" >Login</button>
             </div>
 
             <!-- Enter new task-->
@@ -42,20 +42,21 @@
             </div>
         </div>
 
-        <div class="modal-container" id="modal-container" onclick="modalExit(event)">
-            <div class="modal-content" id="modal-content"onclick="stopPropagation(event)">
+        <div class="modal-container" id="modal-container">
+            <div class="modal-content" id="modal-content">
                 <h2 id="modal-header">Login</h2>
                 <form class="logn-form">
                     <input id="email" type="email" placeholder="email id">
                     <input id="password" type="password" placeholder="password">
-                    <input type="button" value="Submit" onclick="onSubmit()">
+                    <input type="button" value="Submit" id="submit" onclick="onSubmit()">
                 </form>
-                <p id="modal-footer">Not a member? <a class="form-action" onclick="getRelativeForm()">Signup</a></p>
+                <p id="modal-footer">Not a member? <a class="form-action" id="form-action">Signup</a></p>
             </div>
         </div>
     </div>
 
     <script src="main.js"></script>
+    <script src="UserLogin.js" type="module"></script>
 </body>
 
 </html>
