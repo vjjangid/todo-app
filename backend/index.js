@@ -1,18 +1,34 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require("cors");
+const mongoose = require("mongoose");
+
 const app = express();
-const port = process.env.port || 90001;
+const port = process.env.port || 3000   ;
 
 app.use(cors());
 app.use(bodyParser.json());
 
 let todos = new Array();
-todos.push({
-    id: 1,
-    name: "new task",
-    completed: false
+
+const todoSchema = mongoose.Schema({
+    id: Number,
+    name: String,
+    completed: Boolean
 });
+
+const TODOS = mongoose.model("Todos", todoSchema);
+
+mongoose.connect("mongodb+srv://vjjangid:rwxzX3PQlTu1mg71@cluster0.iqqseyl.mongodb.net/todos", { 
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: "todos" 
+}).then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+  });;      
 
 app.get('/todos', (req, res)=>{
     res.json(todos);
@@ -24,8 +40,15 @@ app.post('/todos', (req, res) => {
       name: req.body.name,
       completed: req.body.completed
     };
-    todos.push(newTodo);
-    res.status(201).json(newTodo);
+    const newTodoObj = new TODOS(newTodo);
+    newTodoObj.save().then((savedTodo)=>{
+        console.log("Saved the data");
+        res.status(201).json(savedTodo);
+    })
+    .catch((error)=>{
+        res.status(500).json({ error: "Error creating todo" });
+    });
+    
 });
 
 app.listen(port, () => {
