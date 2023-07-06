@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const mongoose = require("mongoose");
-
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const port = process.env.port || 3000   ;
@@ -19,7 +19,14 @@ const todoSchema = mongoose.Schema({
     completed: Boolean
 });
 
-const TODOS = mongoose.model("Todos", todoSchema);
+const userSchema = mongoose.Schema({
+    emailId: String,
+    password: String,
+    todos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Todos" }]
+});
+
+const Todos = mongoose.model("Todos", todoSchema);
+const User = mongoose.model("User", userSchema);
 
 mongoose.connect(process.env.DATABASE_URL, { 
     useNewUrlParser: true,
@@ -27,31 +34,110 @@ mongoose.connect(process.env.DATABASE_URL, {
     dbName: "todos" 
 }).then(() => {
     console.log("Connected to MongoDB");
-  })
-  .catch((error) => {
-    console.error("Error connecting to MongoDB:", error);
-  });;      
-
-app.get('/todos', (req, res)=>{
-    res.json(todos);
+})
+.catch((error) => {
+console.error("Error connecting to MongoDB:", error);
 });
 
-app.post('/todos', (req, res) => {
-    const newTodo = {
-      id: req.body.id, // unique random id
-      name: req.body.name,
-      completed: req.body.completed
-    };
-    const newTodoObj = new TODOS(newTodo);
-    newTodoObj.save().then((savedTodo)=>{
-        console.log("Saved the data");
-        res.status(201).json(savedTodo);
-    })
-    .catch((error)=>{
-        res.status(500).json({ error: "Error creating todo" });
-    });
+const generateJwt = function(user)
+{
+    const payload = { emailId: user.emailId };
+    return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1h"});
+}
+
+const authenticateJwt = (req, res, next) => {
+    const authenticationHeader = req.headers.authorization
+    if(authenticationHeader)
+    {
+        const token = authenticationHeader.split(' ')[1];
+        jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+            if(err){
+                return res.sendStatus(403);
+            }
+            req.user = user;
+            next();
+        });
+    }
+    else
+    {
+        res.sendStatus(401);
+    }
+};
+
+
+app.get('/todos', authenticateJwt, (req, res)=>{
+    res.json({});
+});
+
+app.post("/signup", async (req, res) => {
+    const { emailId, password } = req.body;
+    const user = await User.findOne({ emailId });
+    if(user)
+    {
+        res.status(403).json({ message: "Acount already exists!"});
+    }
+    else
+    {
+        const newUser = new User({emailId, password});
+        await newUser.save();
+        const token = generateJwt(req.body);
+        res.json({ message: "Account created successfully", token});
+    }
+});
+
+app.post("/login", async (req, res)=>{
+    const { emailId, password } = req.body;
+    const user = await User.findOne({emailId});
+    if(user){
+        const token = generateJwt(req.body);
+        res.json({ message: "Logged in successfully", token});
+    }
     
+    res.status(403).json({message: "User is not registered"});
 });
+
+app.post('/todos',  authenticateJwt, async(req, res) => {
+    
+    const userId = req.user.emailId;
+    const user = await User.findOne({ emailId: userId });
+    if (!user) {
+      return res.sendStatus(404);
+    }
+
+    const newTodo = new Todos({
+        id: req.body.id,
+        name: req.body.name,
+        completed: req.body.completed
+      });
+      await newTodo.save();
+
+    user.todos.push(newTodo._id);
+    const saveUser = await user.save();
+    
+    if(saveUser)
+    {
+        res.send({message: "Task added successfully"});
+    }
+    else
+    {
+        res.sendStatus(404);
+    }
+});
+
+app.get("/todos/:id", authenticateJwt, async (req, res)=>{
+    const userId = req.user.emailId;
+    const user = await User.findOne({ emailId: userId });
+    if (user) {
+      const todos = user.todos;
+      const todo = todos.map( (todo)=> todo.id === req.params.id);
+      res.json(todo);
+    }
+    else {
+        return res.sendStatus(404);
+    }
+
+});
+
 
 app.listen(port, () => {
     console.log("backend started");
