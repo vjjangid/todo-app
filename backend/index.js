@@ -64,8 +64,16 @@ const authenticateJwt = (req, res, next) => {
     }
 };
 
-app.get('/todos', authenticateJwt, (req, res)=>{
-    res.json({});
+app.get('/todos', authenticateJwt, async (req, res)=>{
+    const userId = req.user.emailId;
+    const user = await User.findOne({ emailId: userId });
+    if(user){
+        const todosDetails = await Todos.find({ _id: { $in: user.todos } }).lean();
+        res.json({message: "Successfull", todos: todosDetails});
+    }
+    else{
+        res.sendStatus(404);
+    }
 });
 
 app.post("/signup", async (req, res) => {
