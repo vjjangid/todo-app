@@ -129,10 +129,34 @@ app.get('/todos/:id', authenticateJwt, async (req, res)=>{
     if (user) {
       const todosDetails = await Todos.find({ _id: { $in: user.todos } }).lean();
       const temp = todosDetails.filter ( (todo) => todo.id === parseInt(req.params.id));
-      res.json(temp);
+      if(temp.length !== 0) {
+        res.json(temp);
+      }
+      else {
+        res.sendStatus(404); 
+      }
     }
     else {
         res.sendStatus(404);
+    }
+
+});
+
+app.delete('/todos/:id', authenticateJwt, async (req, res) => {
+    const userId = req.user.emailId;
+    const user = await User.findOne({ emailId: userId });
+    if(user) {
+        const todosDetails = await Todos.find({ _id: { $in: user.todos } }).lean();
+        const temp = todosDetails.filter ( (todo) => todo.id === parseInt(req.params.id));
+        if(temp.length !== 0) {
+            user.todos.pull(temp[0]._id);
+            await user.save();
+            const deletedTodo = await Todos.findByIdAndDelete( temp[0]._id );
+            res.json({message: "Successfully deleted", name: deletedTodo.name});
+        }
+    }
+    else {
+        res.sendStatus(404);    
     }
 
 });
