@@ -101,7 +101,7 @@ app.post('/todos',  authenticateJwt, async(req, res) => {
     const userId = req.user.emailId;
     const user = await User.findOne({ emailId: userId });
     if (!user) {
-      return res.sendStatus(404);
+      res.sendStatus(404);
     }
 
     const newTodo = new Todos({
@@ -109,7 +109,7 @@ app.post('/todos',  authenticateJwt, async(req, res) => {
         name: req.body.name,
         completed: req.body.completed
       });
-      await newTodo.save();
+    await newTodo.save();
 
     user.todos.push(newTodo._id);
     const saveUser = await user.save();
@@ -125,16 +125,17 @@ app.post('/todos',  authenticateJwt, async(req, res) => {
 });
 
 app.get("/todos/:id", authenticateJwt, async (req, res)=>{
-    const userId = req.user.emailId;
-    const user = await User.findOne({ emailId: userId });
-    if (user) {
-      const todos = user.todos;
-      const todo = todos.map( (todo)=> todo.id === req.params.id);
-      res.json(todo);
-    }
-    else {
-        return res.sendStatus(404);
-    }
+    res.sendStatus(200);
+    // const userId = req.user.emailId;
+    // const user = await User.findOne({ emailId: userId });
+    // if (user) {
+    //   const todos = user.todos;
+    //   const todo = todos.map( (todo)=> todo.id === req.params.id);
+    //   res.json(todo);
+    // }
+    // else {
+    //     return res.sendStatus(404);
+    // }
 
 });
 
