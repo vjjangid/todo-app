@@ -64,7 +64,6 @@ const authenticateJwt = (req, res, next) => {
     }
 };
 
-
 app.get('/todos', authenticateJwt, (req, res)=>{
     res.json({});
 });
@@ -124,21 +123,19 @@ app.post('/todos',  authenticateJwt, async(req, res) => {
     }
 });
 
-app.get("/todos/:id", authenticateJwt, async (req, res)=>{
-    res.sendStatus(200);
-    // const userId = req.user.emailId;
-    // const user = await User.findOne({ emailId: userId });
-    // if (user) {
-    //   const todos = user.todos;
-    //   const todo = todos.map( (todo)=> todo.id === req.params.id);
-    //   res.json(todo);
-    // }
-    // else {
-    //     return res.sendStatus(404);
-    // }
+app.get('/todos/:id', authenticateJwt, async (req, res)=>{
+    const userId = req.user.emailId;
+    const user = await User.findOne({ emailId: userId });
+    if (user) {
+      const todosDetails = await Todos.find({ _id: { $in: user.todos } }).lean();
+      const temp = todosDetails.filter ( (todo) => todo.id === parseInt(req.params.id));
+      res.json(temp);
+    }
+    else {
+        res.sendStatus(404);
+    }
 
 });
-
 
 app.listen(port, () => {
     console.log("backend started");
