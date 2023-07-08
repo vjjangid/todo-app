@@ -69,6 +69,10 @@ const authenticateJwt = (req, res, next) => {
     }
 };
 
+app.get('/', (req, res) => {
+    res.json({message: "Hello world"});
+})
+
 app.get('/todos', authenticateJwt, async (req, res)=>{
     const userId = req.user.emailId;
     const user = await User.findOne({ emailId: userId });
