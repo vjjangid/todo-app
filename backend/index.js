@@ -4,14 +4,14 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const port = process.env.port || 3000   ;
 
 app.use(cors());
 app.use(bodyParser.json());
-
-let todos = new Array();
+app.use(cookieParser());
 
 const todoSchema = mongoose.Schema({
     id: Number,
@@ -46,10 +46,9 @@ const generateJwt = function(user)
 }
 
 const authenticateJwt = (req, res, next) => {
-    const authenticationHeader = req.headers.authorization
-    if(authenticationHeader)
+    const token = req.cookies.access_token;
+    if(token)
     {
-        const token = authenticationHeader.split(' ')[1];
         jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
             if(err){
                 return res.sendStatus(403);
@@ -88,7 +87,13 @@ app.post("/signup", async (req, res) => {
         const newUser = new User({emailId, password});
         await newUser.save();
         const token = generateJwt(req.body);
-        res.json({ message: "Account created successfully", token});
+
+        res.cookie("access_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+        })
+        .status(200)
+        .json({ message: "Account created successfully" });
     }
 });
 
@@ -96,11 +101,22 @@ app.post("/login", async (req, res)=>{
     const { emailId, password } = req.body;
     const user = await User.findOne({emailId});
     if(user){
-        const token = generateJwt(req.body);
-        res.json({ message: "Logged in successfully", token});
+        if(user.password === password){
+            const token = generateJwt(req.body);
+            res.cookie("access_token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+            })
+            .status(200)
+            .json({ message: "Logged in successfully"});
+        }
+        else {
+            res.status(403).json({ message: "Wrong password" });
+        }
     }
-    
-    res.status(403).json({message: "User is not registered"});
+    else{
+        res.status(403).json({message: "User is not registered"});
+    }
 });
 
 app.post('/todos',  authenticateJwt, async(req, res) => {
