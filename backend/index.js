@@ -40,6 +40,8 @@ mongoose.connect(process.env.DATABASE_URL, {
 console.error("Error connecting to MongoDB:", error);
 });
 
+app.get('/favicon.ico', (req, res) => res.status(200));
+
 // const generateJwt = function(user)
 // {
 //     const payload = { emailId: user.emailId };
@@ -68,7 +70,7 @@ app.get('/', (req, res) => {
     res.json({message: "Hello world"});
 })
 
-app.get('/favicon.ico', (req, res) => res.status(204));
+
 
 // app.get('/todos', authenticateJwt, async (req, res)=>{
 //     const userId = req.user.emailId;
