@@ -40,7 +40,6 @@ mongoose.connect(process.env.DATABASE_URL, {
 console.error("Error connecting to MongoDB:", error);
 });
 
-app.get('/favicon.ico', (req, res) => res.status(200));
 
 // const generateJwt = function(user)
 // {
