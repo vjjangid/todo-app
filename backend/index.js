@@ -5,7 +5,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const mongoose = require("mongoose");
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const port = process.env.PORT || 3000   ;
@@ -41,29 +41,29 @@ console.error("Error connecting to MongoDB:", error);
 });
 
 
-// const generateJwt = function(user)
-// {
-//     const payload = { emailId: user.emailId };
-//     return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1h"});
-// }
+const generateJwt = function(user)
+{
+    const payload = { emailId: user.emailId };
+    return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1h"});
+}
 
-// const authenticateJwt = (req, res, next) => {
-//     const token = req.cookies.access_token;
-//     if(token)
-//     {
-//         jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
-//             if(err){
-//                 return res.sendStatus(403);
-//             }
-//             req.user = user;
-//             next();
-//         });
-//     }
-//     else
-//     {
-//         res.sendStatus(401);
-//     }
-// };
+const authenticateJwt = (req, res, next) => {
+    const token = req.cookies.access_token;
+    if(token)
+    {
+        jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+            if(err){
+                return res.sendStatus(403);
+            }
+            req.user = user;
+            next();
+        });
+    }
+    else
+    {
+        res.sendStatus(401);
+    }
+};
 
 app.get('/', (req, res) => {
     res.json({message: "Hello world"});
@@ -83,27 +83,27 @@ app.get('/', (req, res) => {
 //     }
 // });
 
-// app.post("/signup", async (req, res) => {
-//     const { emailId, password } = req.body;
-//     const user = await User.findOne({ emailId });
-//     if(user)
-//     {
-//         res.status(403).json({ message: "Acount already exists!"});
-//     }
-//     else
-//     {
-//         const newUser = new User({emailId, password});
-//         await newUser.save();
-//         const token = generateJwt(req.body);
+app.post("/signup", async (req, res) => {
+    const { emailId, password } = req.body;
+    const user = await User.findOne({ emailId });
+    if(user)
+    {
+        res.status(403).json({ message: "Acount already exists!"});
+    }
+    else
+    {
+        const newUser = new User({emailId, password});
+        await newUser.save();
+        const token = generateJwt(req.body);
 
-//         res.cookie("access_token", token, {
-//             httpOnly: true,
-//             secure: process.env.NODE_ENV === 'production',
-//         })
-//         .status(200)
-//         .json({ message: "Account created successfully" });
-//     }
-// });
+        res.cookie("access_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+        })
+        .status(200)
+        .json({ message: "Account created successfully" });
+    }
+});
 
 // app.post("/login", async (req, res)=>{
 //     const { emailId, password } = req.body;
