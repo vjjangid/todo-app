@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 // const jwt = require("jsonwebtoken");
 
 const app = express();
@@ -14,31 +14,31 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// const todoSchema = mongoose.Schema({
-//     id: Number,
-//     name: String,
-//     completed: Boolean
-// });
+const todoSchema = mongoose.Schema({
+    id: Number,
+    name: String,
+    completed: Boolean
+});
 
-// const userSchema = mongoose.Schema({
-//     emailId: String,
-//     password: String,
-//     todos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Todos" }]
-// });
+const userSchema = mongoose.Schema({
+    emailId: String,
+    password: String,
+    todos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Todos" }]
+});
 
-// const Todos = mongoose.model("Todos", todoSchema);
-// const User = mongoose.model("User", userSchema);
+const Todos = mongoose.model("Todos", todoSchema);
+const User = mongoose.model("User", userSchema);
 
-// mongoose.connect(process.env.DATABASE_URL, { 
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     dbName: "todos" 
-// }).then(() => {
-//     console.log("Connected to MongoDB");
-// })
-// .catch((error) => {
-// console.error("Error connecting to MongoDB:", error);
-// });
+mongoose.connect(process.env.DATABASE_URL, { 
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: "todos" 
+}).then(() => {
+    console.log("Connected to MongoDB");
+})
+.catch((error) => {
+console.error("Error connecting to MongoDB:", error);
+});
 
 // const generateJwt = function(user)
 // {
@@ -192,5 +192,4 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
     console.log("backend started");
-    console.log(process.env.PORT);
 });
