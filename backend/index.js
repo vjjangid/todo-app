@@ -105,27 +105,27 @@ app.post("/signup", async (req, res) => {
     }
 });
 
-// app.post("/login", async (req, res)=>{
-//     const { emailId, password } = req.body;
-//     const user = await User.findOne({emailId});
-//     if(user){
-//         if(user.password === password){
-//             const token = generateJwt(req.body);
-//             res.cookie("access_token", token, {
-//                 httpOnly: true,
-//                 secure: process.env.NODE_ENV === 'production',
-//             })
-//             .status(200)
-//             .json({ message: "Logged in successfully"});
-//         }
-//         else {
-//             res.status(403).json({ message: "Wrong password" });
-//         }
-//     }
-//     else{
-//         res.status(403).json({message: "User is not registered"});
-//     }
-// });
+app.post("/login", async (req, res)=>{
+    const { emailId, password } = req.body;
+    const user = await User.findOne({emailId});
+    if(user){
+        if(user.password === password){
+            const token = generateJwt(req.body);
+            res.cookie("access_token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+            })
+            .status(200)
+            .json({ message: "Logged in successfully"});
+        }
+        else {
+            res.status(403).json({ message: "Wrong password" });
+        }
+    }
+    else{
+        res.status(403).json({message: "User is not registered"});
+    }
+});
 
 // app.post('/todos',  authenticateJwt, async(req, res) => {
     
