@@ -67,32 +67,97 @@ submitButton.addEventListener("click", async () => {
     const passwordInput = document.getElementById('password');
     const email = emailInput.value;
     const password = passwordInput.value;
-    console.log(emailInput);
-    console.log(passwordInput);
     let modalHeaderElement = document.getElementById("modal-header");
-    if (modalHeaderElement.innerHTML === "Signup")
-    {
-        const obj = JSON.stringify({emailId: emailInput, password: passwordInput});
-        console.log(obj);
-        const response = await fetch(env.prod.signup,
-            {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
-                  },
-                body: JSON.stringify({emailId: email, password: password}),
-            });
-        if(response.ok){
-            await response.json();
-            emailInput.value = '';
-            passwordInput.value = '';
+    if (modalHeaderElement.innerHTML === "Signup"){
+        console.log("In signup");
+        await onSigningUpUser(emailInput, passwordInput, email, password);
+        closeModal();
+    }
+    else if(modalHeaderElement.innerHTML === "Login"){
+        console.log("in login");
+        await onLoginOfUser(emailInput, passwordInput, email, password);
+        closeModal();
+        const userInfo = {
+            userName: email,
         }
-        else{
-            const error = await response.json();
-            console.log(error.message);
-        }
-    } 
+        onLogin(userInfo);
+    }
 
 });
+
+async function onSigningUpUser(emailInput, passwordInput, email, password) {
+    const response = await fetch(env.prod.signup,
+        {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ emailId: email, password: password }),
+        });
+    if (response.ok) {
+        await response.json();
+        emailInput.value = '';
+        passwordInput.value = '';
+    }
+    else {
+        const error = await response.json();
+        console.log(error.message);
+    }
+}
+
+async function onLoginOfUser(emailInput, passwordInput, email, password) {
+    const response = await fetch(env.prod.login,
+        {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ emailId: email, password: password }),
+        });
+    if (response.ok) {
+        await response.json();
+        emailInput.value = '';
+        passwordInput.value = '';
+        console.log("Login is successfull");
+        console.log(document.cookie);
+        const getAllTodoResponse = await fetch(env.prod.todos,
+            {
+                method: "GET",
+                credentials: "include",
+            });
+        if(getAllTodoResponse.ok){
+            const data = await getAllTodoResponse.json();
+            console.log(data);
+        }
+        else{
+            const error = await getAllTodoResponse.json();
+        console.log(error.message);
+        }
+    }
+    else {
+        const error = await response.json();
+        console.log(error.message);
+    }
+}
+
+function closeModal()
+{
+    const modalContainer = document.getElementById("modal-container");
+    modalContainer.style.display = "none";  
+}
+
+function onLogin(userInfo)
+{
+    const loginEvent = new CustomEvent("onLogin", {
+        detail: {
+            userName: userInfo.userName
+        },
+        bubbles: true,
+        cancelable: false       
+    });
+
+    document.dispatchEvent(loginEvent);
+}
 

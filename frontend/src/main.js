@@ -3,30 +3,6 @@
 let ids = new Array();
 let allToDos = new Array();
 
-function fetchTodos()
-{
-    fetch("http://localhost:3000/todos")
-    .then( (response) => {
-        return response.json();
-    })
-    .then((data)=>{
-        loadAllTodos(data);
-    })
-    .catch(error => {
-        console.log(error);
-    })
-}
-
-fetchTodos();
-
-function loadAllTodos(todos)
-{
-    todos.forEach(todo => {
-        allToDos.push(todo);
-        addTodoItem(todo.name, todo.id);
-    })
-}
-
 function onEnterTask(event)
 {
     let newTask = document.getElementById("new-task");
@@ -282,7 +258,6 @@ function updateAllTodosOnClick(checkboxElement, uniqueTaskId, uniqueCheckBoxId) 
     });
 }
 
-
 function getUniqueId(){
     let id = getRandomNumber(100);
     
@@ -297,3 +272,8 @@ function getUniqueId(){
 function getRandomNumber(range){
     return Math.ceil(Math.random() * range);
 }
+
+document.addEventListener("onLogin", (event) => {
+    const userName = event.detail.userName;
+    console.log("Received onLogin event. User name:", userName);
+  });
