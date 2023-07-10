@@ -69,8 +69,6 @@ app.get('/', (req, res) => {
     res.json({message: "Hello world"});
 })
 
-
-
 app.get('/todos', authenticateJwt, async (req, res)=>{
     const userId = req.user.emailId;
     const user = await User.findOne({ emailId: userId });
@@ -95,13 +93,13 @@ app.post("/signup", async (req, res) => {
         const newUser = new User({emailId, password});
         await newUser.save();
         const token = generateJwt(req.body);
-
-        res.cookie("access_token", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-        })
-        .status(200)
-        .json({ message: "Account created successfully" });
+        res.json(token);
+        // res.cookie("access_token", token, {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === 'production',
+        // })
+        // .status(200)
+        // .json({ message: "Account created successfully" });
     }
 });
 
