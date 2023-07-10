@@ -10,11 +10,9 @@ const jwt = require("jsonwebtoken");
 const app = express();
 const port = process.env.PORT || 3000   ;
 
-var corsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200,
-  }
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: 'http://localhost:3000',
+}));
 
 app.use(bodyParser.json());
 app.use(cookieParser());
