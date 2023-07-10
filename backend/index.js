@@ -96,13 +96,12 @@ app.post("/signup", async (req, res) => {
         const newUser = new User({emailId, password});
         await newUser.save();
         const token = generateJwt(req.body);
-        res.json(token);
-        // res.cookie("access_token", token, {
-        //     httpOnly: true,
-        //     secure: process.env.NODE_ENV === 'production',
-        // })
-        // .status(200)
-        // .json({ message: "Account created successfully" });
+        res.cookie("access_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+        })
+        .status(200)
+        .json({ message: "Account created successfully" });
     }
 });
 
