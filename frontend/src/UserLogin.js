@@ -74,11 +74,11 @@ submitButton.addEventListener("click", async () => {
         closeModal();
     }
     else if(modalHeaderElement.innerHTML === "Login"){
-        console.log("in login");
-        await onLoginOfUser(emailInput, passwordInput, email, password);
+        const userTodos = await onLoginOfUser(emailInput, passwordInput, email, password);
         closeModal();
         const userInfo = {
             userName: email,
+            todos: userTodos
         }
         onLogin(userInfo);
     }
@@ -86,7 +86,7 @@ submitButton.addEventListener("click", async () => {
 });
 
 async function onSigningUpUser(emailInput, passwordInput, email, password) {
-    const response = await fetch(env.prod.signup,
+    const response = await fetch(env.dev.signup,
         {
             method: "POST",
             credentials: "include",
@@ -107,7 +107,7 @@ async function onSigningUpUser(emailInput, passwordInput, email, password) {
 }
 
 async function onLoginOfUser(emailInput, passwordInput, email, password) {
-    const response = await fetch(env.prod.login,
+    const response = await fetch(env.dev.login,
         {
             method: "POST",
             credentials: "include",
@@ -120,20 +120,18 @@ async function onLoginOfUser(emailInput, passwordInput, email, password) {
         await response.json();
         emailInput.value = '';
         passwordInput.value = '';
-        console.log("Login is successfull");
-        console.log(document.cookie);
-        const getAllTodoResponse = await fetch(env.prod.todos,
+        const getAllTodoResponse = await fetch(env.dev.todos,
             {
                 method: "GET",
                 credentials: "include",
             });
         if(getAllTodoResponse.ok){
             const data = await getAllTodoResponse.json();
-            console.log(data);
+            return data.todos;
         }
         else{
             const error = await getAllTodoResponse.json();
-        console.log(error.message);
+            console.log(error.message);
         }
     }
     else {
@@ -152,7 +150,8 @@ function onLogin(userInfo)
 {
     const loginEvent = new CustomEvent("onLogin", {
         detail: {
-            userName: userInfo.userName
+            userName: userInfo.userName,
+            todos: userInfo.todos
         },
         bubbles: true,
         cancelable: false       

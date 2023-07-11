@@ -275,5 +275,16 @@ function getRandomNumber(range){
 
 document.addEventListener("onLogin", (event) => {
     const userName = event.detail.userName;
-    console.log("Received onLogin event. User name:", userName);
-  });
+    const userTodos = event.detail.todos;
+    let todoListNode = document.getElementById("todo-list");
+    userTodos.forEach((todo) => {
+        let newTodoNode = createNewTaskWithUid(todo.name, todo.id);
+        todoListNode.append(newTodoNode);
+        let hrElement = document.createElement("hr");
+        todoListNode.append(hrElement);
+        let element = document.getElementById(todo.id);
+        console.log(element.innerHTML);
+        allToDos.push(todo);
+        ids.push(todo.id);
+    });
+});
