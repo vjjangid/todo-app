@@ -10,10 +10,11 @@ const jwt = require("jsonwebtoken");
 const app = express();
 const port = process.env.PORT || 3000   ;
 
-app.use(cors({
+const corsOptions = {
     origin: 'http://localhost:3000',
     credentials: true
-  }));
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
@@ -99,7 +100,6 @@ app.post("/signup", async (req, res) => {
         res.cookie("access_token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            domain: 'localhost'
         })
         .status(200)
         .json({ message: "Account created successfully" });
