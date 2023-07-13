@@ -1,9 +1,13 @@
 "use strict";
 
+import * as env from "./env.js";
+
 let ids = new Array();
 let allToDos = new Array();
+let loggedInUserName = "";
 
-function onEnterTask(event)
+let newTaskElement = document.getElementById("new-task");
+newTaskElement.addEventListener("keypress", (event)=>
 {
     let newTask = document.getElementById("new-task");
     if(event.key === "Enter")
@@ -15,35 +19,90 @@ function onEnterTask(event)
             return;
         }
 
-        let newTodoNode = addTodoItem(newTask.value, -1);
+        let newTodoNode = addTodoItemInDom(newTask.value, -1);
         addTodosToList(newTodoNode, newTask.value);
         newTask.value = "";
     }
-}
+});
 
-function addTodoItem(newTask, uniqueId) {
+
+function addTodoItemInDom(newTask, uniqueId) {
     let todoListNode = document.getElementById("todo-list");
     let newTodoNode;
-    if(uniqueId === -1)
-    {
+    if(uniqueId === -1){
         newTodoNode = createNewTaskWithDefaultUid(newTask);
     }
-    else
-    {
+    else{
         newTodoNode = createNewTaskWithUid(newTask, uniqueId);
     }
-    todoListNode.append(newTodoNode);
-    let hrElement = document.createElement("hr");
-    todoListNode.append(hrElement);
-    return newTodoNode;
+
+    if(loggedInUserName !==  ""){
+        console.log(newTodoNode.innerHTML);
+        let isUpdated = updateDatabase(newTodoNode, newTask);
+        if(!isUpdated){
+            alert("Server error Please enter task again");
+        }
+        todoListNode.append(newTodoNode);
+        let hrElement = document.createElement("hr");
+        todoListNode.append(hrElement);
+        return newTodoNode;
+    }
+    else{
+        alert("Please login first");
+    }
+}
+
+async function updateDatabase(newTodoNode, newTask)
+{
+    console.log(newTodoNode.innerHTML);
+    let id = newTodoNode.getAttribute("id");
+
+    const response = await fetch(env.dev.todos, {
+        method: "POST",
+        credentials:"include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id, name: newTask, completed: false }),
+    })
+
+    if(response.ok)
+    {
+        const data = await response.json();
+        console.log(data.message);
+        return true;
+    }
 }
 
 function removeTask(id){
-    let taskElement = document.getElementById(id);
-    let hrElement = taskElement.nextElementSibling;
-    taskElement.remove();
-    hrElement.remove();
-    removeTodoFromList(id);
+    if(loggedInUserName !== "")
+    {
+        if(!removeTodoFromDatabase(id)){
+            alert("Server error Please try again !!")
+            return;
+        }
+        let taskElement = document.getElementById(id);
+        let hrElement = taskElement.nextElementSibling;
+        taskElement.remove();
+        hrElement.remove();
+        removeTodoFromList(id);
+    }
+}
+
+async function removeTodoFromDatabase(id){
+    console.log("in remove task");
+    const response = await fetch(env.dev.todos + `/${id}`, {
+        method: "DELETE",
+        credentials:"include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    if(response.ok)
+    {
+        console.log("todo deleted");
+        return true;
+    }
 }
 
 function addTodosToList(newTodoNode, todoName)
@@ -275,6 +334,7 @@ function getRandomNumber(range){
 
 document.addEventListener("onLogin", (event) => {
     const userName = event.detail.userName;
+    loggedInUserName = userName;
     const userTodos = event.detail.todos;
     let todoListNode = document.getElementById("todo-list");
     userTodos.forEach((todo) => {
@@ -283,8 +343,9 @@ document.addEventListener("onLogin", (event) => {
         let hrElement = document.createElement("hr");
         todoListNode.append(hrElement);
         let element = document.getElementById(todo.id);
-        console.log(element.innerHTML);
+        // console.log(element.innerHTML);
         allToDos.push(todo);
         ids.push(todo.id);
     });
+    console.log("logged in event raised");
 });

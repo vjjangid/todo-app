@@ -4,6 +4,9 @@ export const prod = {
     todos: "https://todo-app-backend-1ytepknll-vjjangid.vercel.app/todos",
 }
 
-export const deploy = {
-    
+export const dev = {
+    signup: "http://localhost:9000/signup",
+    login: "http://localhost:9000/login",
+    todos: "http://localhost:9000/todos",
+
 }
