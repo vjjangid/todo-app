@@ -80,6 +80,8 @@ submitButton.addEventListener("click", async () => {
             userName: email,
             todos: userTodos
         }
+        const loginButtonElement = document.getElementById("login-button");
+        loginButtonElement.innerText = "Logout";
         onLogin(userInfo);
     }
 

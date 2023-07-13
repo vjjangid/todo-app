@@ -187,3 +187,23 @@ form > input:focus
 {
     outline: none;
 }
+
+#login-button{
+    padding: 0.5rem;
+    min-width: 100px;
+    font-size: 1rem;
+    font-weight: 2rem;
+    color: blue;
+    border-radius: 15px;
+}
+
+#username{
+    background-color: aliceblue;
+    color: blueviolet;
+    font-family: 'Courier New', Courier, monospace !important;
+    letter-spacing: 0.2rem;
+    padding: 0.1rem;
+    border-radius: 15px;
+    min-width: 5rem;
+    display: none;
+}
