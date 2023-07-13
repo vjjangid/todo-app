@@ -115,7 +115,7 @@ app.post("/login", async (req, res)=>{
             res.cookie("access_token", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                domain: "thirtylpa",
+                domain: "localhost",
             })
             .status(200)
             .json({ message: "Logged in successfully"});
@@ -193,6 +193,15 @@ app.delete('/todos/:id', authenticateJwt, async (req, res) => {
         res.sendStatus(404);    
     }
 
+});
+
+app.post('/logout', authenticateJwt,(req, res) => {
+    res.clearCookie("access_token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        domain: "localhost"
+    });
+    res.sendStatus(200);
 });
 
 app.listen(port, () => {
