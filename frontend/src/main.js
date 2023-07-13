@@ -349,3 +349,10 @@ document.addEventListener("onLogin", (event) => {
     });
     console.log("logged in event raised");
 });
+
+document.addEventListener("onLogout", ()=>{
+    console.log("user logged out");
+    ids.forEach( id => removeTask(id));
+    ids = new Array();
+    loggedInUserName = "";
+});

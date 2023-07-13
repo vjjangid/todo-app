@@ -6,7 +6,32 @@ loginButton.addEventListener("click", ()=>{
     let popUpmodel = document.getElementById("modal-container");
     popUpmodel.style.display = "block";
 
+    console.log(loginButton.innerText);
+    const loginButtonValue = loginButton.innerText;
+    if(loginButtonValue === "Logout")
+    {
+        if(logout()){
+            console.log("logged out");
+            loginButton.innerText = "Login";
+            closeModal();
+            onLogout();
+        }
+        else{
+            alert("server error Please try again");
+        }
+    }
 });
+
+async function logout(){
+    const response = await fetch(env.dev.logout, {
+        method: "POST",
+        credentials: "include",
+    });
+    if(response.status === 200)
+    {
+        return true;
+    }
+}
 
 let modelContainer = document.getElementById("modal-container");
 modelContainer.addEventListener("click", (event)=>{
@@ -162,3 +187,12 @@ function onLogin(userInfo)
     document.dispatchEvent(loginEvent);
 }
 
+function onLogout()
+{
+    const logoutEvent = new CustomEvent("onLogout", {
+        bubbles:true,
+        cancelable:false
+    })
+    document.dispatchEvent(logoutEvent);
+    console.log("Logout event dispached");
+}
