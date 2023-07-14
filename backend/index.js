@@ -117,7 +117,7 @@ app.post("/login", async (req, res)=>{
             res.cookie("access_token", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                domain: 'thirtylpa',
+                domain: 'thirtylpa.com',
                 sameSite: "none"
             })
             .status(200)
@@ -202,7 +202,7 @@ app.post('/logout', authenticateJwt,(req, res) => {
     res.clearCookie("access_token", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        domain: "thirtylpa"
+        domain: "thirtylpa.com"
     });
     res.sendStatus(200);
 });
