@@ -1,8 +1,8 @@
 export const prod = {
-    signup: "https://todo-app-backend-nwfy87cpb-vjjangid.vercel.app/signup",
-    login: "https://todo-app-backend-nwfy87cpb-vjjangid.vercel.app/login",
-    todos: "https://todo-app-backend-nwfy87cpb-vjjangid.vercel.app/todos",
-    logout: "https://todo-app-backend-nwfy87cpb-vjjangid.vercel.app/logout"
+    signup: "https://todo-app-backend-an2g5sjsz-vjjangid.vercel.app/signup",
+    login: "https://todo-app-backend-an2g5sjsz-vjjangid.vercel.app/login",
+    todos: "https://todo-app-backend-an2g5sjsz-vjjangid.vercel.app/todos",
+    logout: "https://todo-app-backend-an2g5sjsz-vjjangid.vercel.app/logout"
 }
 
 export const dev = {
