@@ -57,7 +57,7 @@ async function updateDatabase(newTodoNode, newTask)
     console.log(newTodoNode.innerHTML);
     let id = newTodoNode.getAttribute("id");
 
-    const response = await fetch(env.dev.todos, {
+    const response = await fetch(env.prod.todos, {
         method: "POST",
         credentials:"include",
         headers: {
@@ -88,7 +88,7 @@ function removeTask(id){
 
 async function removeTodoFromDatabase(id){
     console.log("in remove task");
-    const response = await fetch(env.dev.todos + `/${id}`, {
+    const response = await fetch(env.prod.todos + `/${id}`, {
         method: "DELETE",
         credentials:"include",
         headers: {
@@ -331,7 +331,7 @@ function updateAllTodosOnClick(checkboxElement, uniqueTaskId, uniqueCheckBoxId) 
 
 async function updateStatusInDatabase(uniqueId)
 {
-    const response = await fetch(env.dev.todos + `/${uniqueId}/status`, {
+    const response = await fetch(env.prod.todos + `/${uniqueId}/status`, {
         method: "PUT",
         credentials: "include"
     })

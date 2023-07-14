@@ -23,7 +23,7 @@ loginButton.addEventListener("click", ()=>{
 });
 
 async function logout(){
-    const response = await fetch(env.dev.logout, {
+    const response = await fetch(env.prod.logout, {
         method: "POST",
         credentials: "include",
     });
@@ -106,7 +106,7 @@ submitButton.addEventListener("click", async () => {
 });
 
 async function onSigningUpUser(emailInput, passwordInput, email, password) {
-    const response = await fetch(env.dev.signup,
+    const response = await fetch(env.prod.signup,
         {
             method: "POST",
             credentials: "include",
@@ -126,7 +126,7 @@ async function onSigningUpUser(emailInput, passwordInput, email, password) {
 }
 
 async function onLoginOfUser(emailInput, passwordInput, email, password) {
-    const response = await fetch(env.dev.login,
+    const response = await fetch(env.prod.login,
         {
             method: "POST",
             credentials: "include",
@@ -139,7 +139,7 @@ async function onLoginOfUser(emailInput, passwordInput, email, password) {
         await response.json();
         emailInput.value = '';
         passwordInput.value = '';
-        const getAllTodoResponse = await fetch(env.dev.todos,
+        const getAllTodoResponse = await fetch(env.prod.todos,
             {
                 method: "GET",
                 credentials: "include",
@@ -156,8 +156,7 @@ async function onLoginOfUser(emailInput, passwordInput, email, password) {
             return;
         }
         else{
-            const error = await getAllTodoResponse.json();
-            console.log(error.message);
+            alert("Opps!! something wrong plese try again");
         }
     }
     else {
