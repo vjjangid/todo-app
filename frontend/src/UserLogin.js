@@ -99,9 +99,8 @@ submitButton.addEventListener("click", async () => {
         closeModal();
     }
     else if(modalHeaderElement.innerHTML === "Login"){
-        const userTodos = await onLoginOfUser(emailInput, passwordInput, email, password);
+        await onLoginOfUser(emailInput, passwordInput, email, password);
         closeModal();
-        
     }
 
 });
@@ -116,14 +115,13 @@ async function onSigningUpUser(emailInput, passwordInput, email, password) {
             },
             body: JSON.stringify({ emailId: email, password: password }),
         });
-    if (response.ok) {
+    if (response.status == 200) {
         await response.json();
         emailInput.value = '';
         passwordInput.value = '';
     }
     else {
-        const error = await response.json();
-        console.log(error.message);
+        alert("Invalid input please try again");
     }
 }
 
