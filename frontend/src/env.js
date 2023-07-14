@@ -1,8 +1,8 @@
 export const prod = {
-    signup: "https://todo-app-backend-an2g5sjsz-vjjangid.vercel.app/signup",
-    login: "https://todo-app-backend-an2g5sjsz-vjjangid.vercel.app/login",
-    todos: "https://todo-app-backend-an2g5sjsz-vjjangid.vercel.app/todos",
-    logout: "https://todo-app-backend-an2g5sjsz-vjjangid.vercel.app/logout"
+    signup: "https://todo.thirtylpa.com/signup",
+    login: "https://todo.thirtylpa.com/login",
+    todos: "https://todo.thirtylpa.com/todos",
+    logout: "https://todo.thirtylpa.com/logout"
 }
 
 export const dev = {
