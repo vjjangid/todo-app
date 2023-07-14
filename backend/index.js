@@ -159,35 +159,6 @@ app.post('/todos',  authenticateJwt, async(req, res) => {
     }
 });
 
-app.post('/todotemp', async(req, res) => {
-    const emailId = req.body.emailId;
-
-    // const userId = req.user.emailId;
-    const user = await User.findOne({ emailId: emailId });
-    if (!user) {
-      res.sendStatus(404);
-    }
-
-    const newTodo = new Todos({
-        id: req.body.id,
-        name: req.body.name,
-        completed: req.body.completed
-      });
-    await newTodo.save();
-
-    user.todos.push(newTodo._id);
-    const saveUser = await user.save();
-    
-    if(saveUser)
-    {
-        res.send({message: "Task added successfully"});
-    }
-    else
-    {
-        res.sendStatus(404);
-    }
-});
-
 app.get('/todos/:id', authenticateJwt, async (req, res)=>{
     const userId = req.user.emailId;
     const user = await User.findOne({ emailId: userId });
