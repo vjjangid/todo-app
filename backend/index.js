@@ -213,7 +213,6 @@ app.put("/todos/:id/status", authenticateJwt, async (req, res) => {
         const temp = todosDetails.filter ( (todo) => todo.id === parseInt(req.params.id));
         const respectiveObjectId = temp[0]._id;
         const respectiveTodo = await Todos.findById(respectiveObjectId);
-        console.log(respectiveTodo);
         if(respectiveTodo.completed){
             respectiveTodo.completed = false;
         }
@@ -224,7 +223,11 @@ app.put("/todos/:id/status", authenticateJwt, async (req, res) => {
         await respectiveTodo.save();
         res.sendStatus(200);
     }
+    else{
+        res.sendStatus(404);
+    }
 });
+
 
 app.listen(port, () => {
     console.log("backend started", port);
