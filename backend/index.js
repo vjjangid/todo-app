@@ -232,5 +232,5 @@ app.put("/todos/:id/status", authenticateJwt, async (req, res) => {
 
 
 app.listen(port, () => {
-    console.log("backend started", port);
+    console.log("backend started");
 });
