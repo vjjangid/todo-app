@@ -101,13 +101,7 @@ submitButton.addEventListener("click", async () => {
     else if(modalHeaderElement.innerHTML === "Login"){
         const userTodos = await onLoginOfUser(emailInput, passwordInput, email, password);
         closeModal();
-        const userInfo = {
-            userName: email,
-            todos: userTodos
-        }
-        const loginButtonElement = document.getElementById("login-button");
-        loginButtonElement.innerText = "Logout";
-        onLogin(userInfo);
+        
     }
 
 });
@@ -143,7 +137,7 @@ async function onLoginOfUser(emailInput, passwordInput, email, password) {
             },
             body: JSON.stringify({ emailId: email, password: password }),
         });
-    if (response.ok) {
+    if (response.status === 200) {
         await response.json();
         emailInput.value = '';
         passwordInput.value = '';
@@ -152,9 +146,16 @@ async function onLoginOfUser(emailInput, passwordInput, email, password) {
                 method: "GET",
                 credentials: "include",
             });
-        if(getAllTodoResponse.ok){
+        if(getAllTodoResponse.status === 200){
             const data = await getAllTodoResponse.json();
-            return data.todos;
+            const userInfo = {
+                userName: email,
+                todos: data.todos
+            }
+            const loginButtonElement = document.getElementById("login-button");
+            loginButtonElement.innerText = "Logout";
+            onLogin(userInfo);
+            return;
         }
         else{
             const error = await getAllTodoResponse.json();
@@ -162,8 +163,7 @@ async function onLoginOfUser(emailInput, passwordInput, email, password) {
         }
     }
     else {
-        const error = await response.json();
-        console.log(error.message);
+        alert("invalid user please try again");
     }
 }
 
