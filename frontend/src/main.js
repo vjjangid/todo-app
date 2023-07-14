@@ -297,20 +297,39 @@ function getCheckboxElement(uniqueId) {
 }
 
 function updateAllTodosOnClick(checkboxElement, uniqueTaskId, uniqueCheckBoxId) {
-    checkboxElement.addEventListener("click", () => {
-        for (let i = 0; i < allToDos.length; i++) {
-            if (allToDos[i].id === parseInt(uniqueTaskId)) {
-                let checkboxSate = document.getElementById(uniqueCheckBoxId).checked;
-                if (checkboxSate) {
-                    allToDos[i].completed = true;
-                }
-
-                else {
-                    allToDos[i].completed = false;
+    checkboxElement.addEventListener("click", () => {  
+        if(!updateStatusInDatabase(parseInt(uniqueTaskId))){
+            alert("Internal server error!! Please try again");
+        }
+        else{
+            for (let i = 0; i < allToDos.length; i++) {
+                if (allToDos[i].id === parseInt(uniqueTaskId)) {
+                    let checkboxSate = document.getElementById(uniqueCheckBoxId).checked;
+                    if (checkboxSate) {
+                        allToDos[i].completed = true;
+                    }
+    
+                    else {
+                        allToDos[i].completed = false;
+                    }
                 }
             }
         }
     });
+}
+
+async function updateStatusInDatabase(uniqueId)
+{
+    const response = await fetch(env.dev.todos + `/${uniqueId}/status`, {
+        method: "PUT",
+        credentials: "include"
+    })
+    if(response.status === 200)
+    {
+        console.log("todo updated");
+        return true;
+    }
+    return false;
 }
 
 function getUniqueId(){
@@ -335,6 +354,7 @@ document.addEventListener("onLogin", (event) => {
     let todoListNode = document.getElementById("todo-list");
     userTodos.forEach((todo) => {
         let newTodoNode = createNewTaskWithUid(todo.name, todo.id);
+        newTodoNode.children[0].children[0].checked = todo.completed;
         todoListNode.append(newTodoNode);
         let hrElement = document.createElement("hr");
         todoListNode.append(hrElement);
@@ -351,6 +371,9 @@ document.addEventListener("onLogout", ()=>{
     console.log("user logged out");
     ids.forEach( id => removeTaskFromDom(id));
     loggedInUserName = "";
+    console.log("All tasks removed from DOM");
+    const userNameElement = document.getElementById("username");
+    userNameElement.style.display = "none";
 });
 
 function removeTaskFromDom(id)
@@ -358,6 +381,9 @@ function removeTaskFromDom(id)
     let taskElement = document.getElementById(id);
     let hrElement = taskElement.nextElementSibling;
     taskElement.remove();
-    hrElement.remove();
+    if(hrElement !== null){
+        hrElement.remove();
+    }
+
     removeTodoFromList(id);
 }

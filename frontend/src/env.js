@@ -8,6 +8,5 @@ export const dev = {
     signup: "http://localhost:9000/signup",
     login: "http://localhost:9000/login",
     todos: "http://localhost:9000/todos",
-    logout: "http://localhost:9000/logout"
-
+    logout: "http://localhost:9000/logout",
 }
