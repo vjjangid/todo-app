@@ -115,7 +115,7 @@ async function onSigningUpUser(emailInput, passwordInput, email, password) {
             },
             body: JSON.stringify({ emailId: email, password: password }),
         });
-    if (response.status == 200) {
+    if (response.status === 200) {
         await response.json();
         emailInput.value = '';
         passwordInput.value = '';
