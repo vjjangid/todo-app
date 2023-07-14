@@ -204,6 +204,28 @@ app.post('/logout', authenticateJwt,(req, res) => {
     res.sendStatus(200);
 });
 
+app.put("/todos/:id/status", authenticateJwt, async (req, res) => {
+    let userId = req.user.emailId;
+    const user = await User.findOne({ emailId: userId });
+    if(user)
+    {
+        const todosDetails = await Todos.find({ _id: { $in: user.todos } }).lean();
+        const temp = todosDetails.filter ( (todo) => todo.id === parseInt(req.params.id));
+        const respectiveObjectId = temp[0]._id;
+        const respectiveTodo = await Todos.findById(respectiveObjectId);
+        console.log(respectiveTodo);
+        if(respectiveTodo.completed){
+            respectiveTodo.completed = false;
+        }
+        else{
+            respectiveTodo.completed = true;
+        }
+        
+        await respectiveTodo.save();
+        res.sendStatus(200);
+    }
+});
+
 app.listen(port, () => {
-    console.log("backend started");
+    console.log("backend started", port);
 });
