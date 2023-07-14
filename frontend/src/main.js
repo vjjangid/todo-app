@@ -81,11 +81,7 @@ function removeTask(id){
             alert("Server error Please try again !!")
             return;
         }
-        let taskElement = document.getElementById(id);
-        let hrElement = taskElement.nextElementSibling;
-        taskElement.remove();
-        hrElement.remove();
-        removeTodoFromList(id);
+        removeTaskFromDom(id);
     }
 }
 
@@ -342,17 +338,26 @@ document.addEventListener("onLogin", (event) => {
         todoListNode.append(newTodoNode);
         let hrElement = document.createElement("hr");
         todoListNode.append(hrElement);
-        let element = document.getElementById(todo.id);
-        // console.log(element.innerHTML);
         allToDos.push(todo);
         ids.push(todo.id);
     });
+    let usernameElement = document.getElementById("username");
+    usernameElement.innerText = userName;
+    usernameElement.style.display = "block";
     console.log("logged in event raised");
 });
 
 document.addEventListener("onLogout", ()=>{
     console.log("user logged out");
-    ids.forEach( id => removeTask(id));
-    ids = new Array();
+    ids.forEach( id => removeTaskFromDom(id));
     loggedInUserName = "";
 });
+
+function removeTaskFromDom(id)
+{
+    let taskElement = document.getElementById(id);
+    let hrElement = taskElement.nextElementSibling;
+    taskElement.remove();
+    hrElement.remove();
+    removeTodoFromList(id);
+}
