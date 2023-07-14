@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.PORT || 3000   ;
 
 const corsOptions = {
-    origin: 'https://www.thirtylpa.com/',
+    origin: 'https://www.thirtylpa.com',
     credentials: true
 };
 app.use(cors(corsOptions));
