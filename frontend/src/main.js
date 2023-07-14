@@ -133,8 +133,8 @@ function removeTodoFromList(id)
     }
 }
 
-function showActiveTask()
-{
+const activeTaskButton = document.getElementById("show-active-task");
+activeTaskButton.addEventListener("click", ()=>{
     let todoListNode = document.getElementById("todo-list");
     let activeTask = new Array();
     for(let i =0; i<allToDos.length; i++)
@@ -152,10 +152,10 @@ function showActiveTask()
         let hrElement = document.createElement("hr");
         todoListNode.append(hrElement);
     }
-}
+});
 
-function showCompletedTask()
-{
+const completedTaskButton = document.getElementById("show-completed-task");
+completedTaskButton.addEventListener("click", ()=>{
     let todoListNode = document.getElementById("todo-list");
     let activeTask = new Array();
     for(let i =0; i<allToDos.length; i++)
@@ -175,9 +175,10 @@ function showCompletedTask()
         let hrElement = document.createElement("hr");
         todoListNode.append(hrElement);
     }
-}
+});
 
-function showAllTask()
+const allTaskElementButton = document.getElementById("show-all-task");
+allTaskElementButton.addEventListener("click", ()=>
 {
     let todoListNode = document.getElementById("todo-list");
     let activeTask = new Array();
@@ -198,10 +199,10 @@ function showAllTask()
         let hrElement = document.createElement("hr");
         todoListNode.append(hrElement);
     }
-}
+});
 
-function clearCompletedTasks()
-{
+const clearCompletedTaskButton = document.getElementById("clear-completed-task");
+clearCompletedTaskButton.addEventListener("click", ()=>{
     let completedTasks = new Array();
 
     allToDos.forEach(task => {
@@ -214,7 +215,7 @@ function clearCompletedTasks()
     completedTasks.forEach(element => {
         removeTask(element);
     });
-}
+});
 
 function createNewTaskWithDefaultUid(newTask){
     let uniqueId = getUniqueId();
