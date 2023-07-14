@@ -82,6 +82,7 @@ function removeTask(id){
             return;
         }
         removeTaskFromDom(id);
+        removeTodoFromList(id);
     }
 }
 
@@ -118,6 +119,15 @@ function removeTodoFromList(id)
         if(allToDos[i].id === parseInt(id))
         {
             allToDos.splice(i, 1);
+            break;
+        }
+    }
+
+    for(let i = 0; i<ids.length; i++)
+    {
+        if(ids[i] === parseInt(id))
+        {
+            ids.splice(i, 1);
             return;
         }
     }
@@ -374,6 +384,8 @@ document.addEventListener("onLogout", ()=>{
     console.log("All tasks removed from DOM");
     const userNameElement = document.getElementById("username");
     userNameElement.style.display = "none";
+    ids = new Array();
+    allToDos = new Array();
 });
 
 function removeTaskFromDom(id)
@@ -384,6 +396,4 @@ function removeTaskFromDom(id)
     if(hrElement !== null){
         hrElement.remove();
     }
-
-    removeTodoFromList(id);
 }
