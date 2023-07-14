@@ -53,6 +53,7 @@ const generateJwt = function(user)
 
 const authenticateJwt = (req, res, next) => {
     const token = req.cookies.access_token;
+    console.log("From middleware jwt", token);
     if(token)
     {
         jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
@@ -109,25 +110,25 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res)=>{
     const { emailId, password } = req.body;
     const user = await User.findOne({emailId});
-    res.send();
-    // if(user){
-    //     if(user.password === password){
-    //         const token = generateJwt(req.body);
-    //         res.cookie("access_token", token, {
-    //             httpOnly: true,
-    //             secure: process.env.NODE_ENV === 'production',
-    //             domain: 'localhost'
-    //         })
-    //         .status(200)
-    //         .json({ message: "Logged in successfully"});
-    //     }
-    //     else {
-    //         res.status(403).json({ message: "Wrong password" });
-    //     }
-    // }
-    // else{
-    //     res.status(403).json({message: "User is not registered"});
-    // }
+    console.log("From login" ,user.emailId, user.password);
+    if(user){
+        if(user.password === password){
+            const token = generateJwt(req.body);
+            res.cookie("access_token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                domain: 'localhost'
+            })
+            .status(200)
+            .json({ message: "Logged in successfully"});
+        }
+        else {
+            res.status(403).json({ message: "Wrong password" });
+        }
+    }
+    else{
+        res.status(403).json({message: "User is not registered"});
+    }
 });
 
 app.post('/todos',  authenticateJwt, async(req, res) => {
