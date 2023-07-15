@@ -380,9 +380,10 @@ document.addEventListener("onLogin", (event) => {
 
 document.addEventListener("onLogout", ()=>{
     console.log("user logged out");
-    ids.forEach( id => removeTaskFromDom(id));
-    loggedInUserName = "";
-    console.log("All tasks removed from DOM");
+    const todoList = document.getElementById("todo-list");
+    while(todoList.firstChild){
+        todoList.removeChild(todoList.firstChild);
+    }
     const userNameElement = document.getElementById("username");
     userNameElement.style.display = "none";
     ids = new Array();
